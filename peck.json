@@ -1,0 +1,40 @@
+{
+    "preset": "base",
+    "ignore": {
+        "words": [
+            "asort",
+            "behaviour",
+            "charset",
+            "cryptographically",
+            "csprng",
+            "customisation",
+            "customise",
+            "escapeshellarg",
+            "fopen",
+            "fullname",
+            "getimagesize",
+            "img",
+            "informations",
+            "initialisation",
+            "jmbg",
+            "licence",
+            "mailto",
+            "makefile",
+            "numericals",
+            "openssl",
+            "param",
+            "pdo",
+            "phplibrary",
+            "pwd",
+            "reformats",
+            "replaceables",
+            "str",
+            "strlen",
+            "strpos",
+            "truthy",
+            "unlink",
+            "utf"
+        ],
+        "paths": []
+    }
+}

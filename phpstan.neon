@@ -1,0 +1,13 @@
+parameters:
+  # Level 7 is clean. For reference, under this same PHPStan (2.x) the original
+  # pre-rewrite source did not pass level 3, and reported 465 errors at max.
+  # Reaching level 8 would mean adding null-guards that change failure-path
+  # behaviour (e.g. curl_setopt() when curl_init() failed), which is out of
+  # scope for a behaviour-preserving modernisation.
+  level: 7
+  paths:
+    - src
+  ignoreErrors:
+    # The project has always accepted bare `array` types; the old config did
+    # this via checkMissingIterableValueType, removed in PHPStan 2.
+    - identifier: missingType.iterableValue

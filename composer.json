@@ -1,0 +1,79 @@
+{
+  "name": "zlatanstajic/php-library",
+  "type": "library",
+  "description": "PHP Library is a set of classes that contain the most useful attributes and methods that facilitate the development of Web applications",
+  "keywords": [
+    "php",
+    "library",
+    "oop",
+    "php-library"
+  ],
+  "homepage": "https://github.com/zlatanstajic/php-library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Zlatan Stajic",
+      "email": "contact@zlatanstajic.com",
+      "homepage": "https://www.zlatanstajic.com",
+      "role": "Author & Main Developer"
+    }
+  ],
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true,
+    "vendor-dir": "vendor",
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^8.5",
+    "phpoffice/phpspreadsheet": "^5.9"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.30",
+    "peckphp/peck": "^0.3.0",
+    "pestphp/pest": "^5.1",
+    "phpstan/phpstan": "^2.1",
+    "rector/rector": "^2.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "PHP_Library\\Core\\Arrangements\\": "src/core/arrangements",
+      "PHP_Library\\Core\\Data\\": "src/core/data",
+      "PHP_Library\\Core\\Files\\": "src/core/files",
+      "PHP_Library\\Core\\Numericals\\": "src/core/numericals",
+      "PHP_Library\\Core\\Services\\": "src/core/services",
+      "PHP_Library\\Core\\Sites\\": "src/core/sites",
+      "PHP_Library\\Core\\SQL\\": "src/core/sql",
+      "PHP_Library\\System\\Associations\\": "src/system/associations",
+      "PHP_Library\\System\\Examinations\\": "src/system/examinations",
+      "PHP_Library\\System\\Informations\\": "src/system/informations"
+    }
+  },
+  "scripts": {
+    "lint": "vendor/bin/pint src tests --test",
+    "peck": "vendor/bin/peck",
+    "rector": "vendor/bin/rector process --dry-run --no-progress-bar",
+    "fix": "vendor/bin/pint src tests",
+    "rector:fix": "vendor/bin/rector process --no-progress-bar",
+    "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
+    "test": "vendor/bin/pest --coverage --colors=never --min=80 --coverage-html build/coverage --coverage-clover build/coverage.xml --coverage-text=build/coverage.txt --only-summary-for-coverage-text",
+    "coverage": "@test",
+    "hooks:install": "sh scripts/install-hooks.sh",
+    "check": [
+      "@lint",
+      "@peck",
+      "@rector",
+      "@phpstan",
+      "@test"
+    ],
+    "post-install-cmd": [
+      "@hooks:install"
+    ],
+    "post-update-cmd": [
+      "@hooks:install"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+.wy-side-nav-search .logo {
+  height: auto;
+  margin-inline: auto;
+  max-width: 260px;
+  width: 100%;
+}
+
+.document img {
+  height: auto;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .wy-side-nav-search .logo {
+    max-width: 220px;
+  }
+}

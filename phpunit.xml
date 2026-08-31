@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         failOnDeprecation="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnTestsThatTriggerNotices="true">
+  <!--
+    failOnDeprecation is the one that matters here: it is what keeps the suite
+    honest about PHP 8.5 support, so any new deprecation fails the build.
+
+    Warnings and notices are surfaced but not fatal. The library is built on an
+    error-accumulation contract - it never throws - so its failure paths
+    legitimately emit warnings (a missing file, a bad configuration) while
+    recording the error for the caller. Failing on those would mean asserting
+    the error paths are unreachable, which they are not.
+  -->
+  <testsuites>
+    <testsuite name="PHP Library">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
+</phpunit>
