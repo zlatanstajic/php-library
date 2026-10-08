@@ -17,14 +17,18 @@ web-and-sites
 database
 api-reference
 migration
+security
 ```
 
 ![A blue elephant marked with the PHP logo](../assets/img/background.jpg)
 
 ## Install
 
+No stable version has been tagged yet, so install the development version from
+`master`:
+
 ```bash
-composer require zlatanstajic/php-library
+composer require zlatanstajic/php-library:dev-master
 ```
 
 Composer provides the autoloader. Import the class you need and call it
@@ -72,4 +76,4 @@ The library is tested with Pest and requires at least 80% line coverage on
 every project check.
 ```
 
-[Download the latest release](https://github.com/zlatanstajic/php-library/releases/latest)
+[Download the `master` source archive](https://github.com/zlatanstajic/php-library/archive/refs/heads/master.zip)

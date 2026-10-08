@@ -56,9 +56,21 @@ summary under `build/` (git-ignored). Coverage needs PCOV or Xdebug.
 * **CI.** [.github/workflows/check.yml](.github/workflows/check.yml) runs
   `composer check` on PHP 8.5 and uploads the coverage report as an artifact.
   [.github/workflows/pages.yml](.github/workflows/pages.yml) builds the Sphinx
-  docs with `--fail-on-warning` and deploys them to GitHub Pages — a docs
-  warning fails the build, so keep cross-references and the `toctree` in
+  docs with `--fail-on-warning` on pull requests, pushes to `master` and manual
+  dispatches. Only pushes and manual dispatches on `master` deploy to GitHub
+  Pages; write permissions are confined to the deployment job. A docs warning
+  fails the build, so keep cross-references and the `toctree` in
   [docs/index.md](docs/index.md) valid when adding a page.
+
+Build documentation locally with the same warning policy:
+
+```bash
+python -m pip install --requirement docs/requirements.txt
+sphinx-build --fail-on-warning --builder html docs docs/_build/html
+```
+
+Use a Python virtual environment for the documentation dependencies. Security
+reports go through [SECURITY.md](SECURITY.md), rather than public issues.
 
 ## Architecture
 
@@ -108,15 +120,19 @@ warnings (a missing file, a bad config). `phpunit.xml` therefore fails on
 All-static, no state: `Format`, `Date_Time_Format`, `Email`, `Validation`,
 `Random`, `Password`, `User_Agent`, `Math`, `Temperature`, `File`, `Import`,
 `Export`, `Directory_Lister`. Instance-based with a constructor: `Dump`,
-`Sorter`, `Web_Service`, `Website`, `PDO_Connection`. Instance constructors
-take a single `$params` array, except `PDO_Connection` which takes four
-positional strings.
+`Sorter`, `Web_Service`, `Website`, `PDO_Connection`. `Dump`, `Sorter` and
+`Website` take a single `$params` array. `Web_Service` takes an optional URL
+string; `PDO_Connection` takes four optional positional strings.
 
 ## Tests
 
-`tests/` mirrors `src/` with PascalCase directories and the underscores dropped
-from the file name — `src/core/arrangements/Date_Time_Format.php` is covered by
-`tests/Core/Arrangements/DateTimeFormatTest.php`. Shared fixture helpers
+`tests/Core/` mirrors `src/core/` with PascalCase directories and the
+underscores dropped from the file name —
+`src/core/arrangements/Date_Time_Format.php` is covered by
+`tests/Core/Arrangements/DateTimeFormatTest.php`. The three system classes are
+tested directly under `tests/System/` (`MessageTest.php`, `TestingTest.php`,
+`ConnectionTest.php`), without the `src/system/` subdirectories. Shared fixture
+helpers
 `temp_dir()`, `remove_dir()` and `write_png()` live in
 [tests/Pest.php](tests/Pest.php); add new ones there instead of duplicating
 setup. Assert the recorded error as well as the happy path — the failure branch

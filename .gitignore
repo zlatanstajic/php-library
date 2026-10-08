@@ -2,10 +2,7 @@
 
 .phpunit.cache/
 .vscode/
-phpDocumentor.phar
-.phpdoc/
-api/
 build/
 docs/_build/
-deploy/
 vendor/
+brag-*

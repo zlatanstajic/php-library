@@ -35,6 +35,8 @@ fields. `read_file_contents()` is retained as a compatibility alias.
 To serve a download without coupling the library to request termination, call
 `File::prepare_download()`. It returns the path, filename and response headers
 for the application or framework to emit. `force_download()` is deprecated.
+The application must authorize access to the requested file; see
+[Security and trusted inputs](security.md).
 
 ## List directories
 

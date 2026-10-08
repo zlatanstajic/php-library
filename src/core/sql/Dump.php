@@ -176,8 +176,9 @@ class Dump extends Testing
      *
      * Every interpolated value is passed through escapeshellarg(), so a
      * database name, host or path can no longer break out into the shell.
-     * The password travels in MYSQL_PWD rather than on the command line,
-     * where it would otherwise be readable by any user via the process list.
+     * The password travels in MYSQL_PWD rather than in the arguments of the
+     * dump executable. The shell invocation still contains the assignment, so
+     * this requires a trusted local process environment.
      */
     private function execute_command(string $filename, string $database): void
     {

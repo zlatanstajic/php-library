@@ -78,6 +78,8 @@ A dependency-light set of PHP 8.5 classes whose attributes and methods facilitat
 
 - PHP 8.5
 - Composer 2
+- The PHP extensions required by PhpSpreadsheet, checked by Composer even if you do not use the spreadsheet helpers
+- `ext-curl` for HTTP services, `ext-pdo_mysql` for PDO connections, and `mysqldump` plus PHP's `exec()` for MySQL dumps
 - PCOV or Xdebug, only to run the coverage-enforced test suite
 - `aspell` and an English dictionary, only to run the spell checker
 
@@ -85,19 +87,19 @@ A dependency-light set of PHP 8.5 classes whose attributes and methods facilitat
 |---|---|---|
 | 8.5 | Yes | Yes |
 
-*Production* is the version the library runs on when installed into another project. *Development* is the version it is developed and tested on. Releases up to and including 1.x targeted PHP 7; this release requires PHP 8.5.
+*Production* is the version the library runs on when installed into another project. *Development* is the version it is developed and tested on.
 
 ### Composer
 
-Install the stable version into an existing project:
+No stable version has been tagged yet. Install the development version from `master` into an existing project:
 
 ```bash
-composer require zlatanstajic/php-library
+composer require zlatanstajic/php-library:dev-master
 ```
 
 ### Manual
 
-If you would rather not use Composer, download the [latest release](https://github.com/zlatanstajic/php-library/releases/latest) from the releases page.
+Download the [`master` source archive](https://github.com/zlatanstajic/php-library/archive/refs/heads/master.zip), extract it, then run `composer install --no-dev` in the extracted directory. The archive contains the library source; Composer supplies its runtime dependencies and autoloader.
 
 ### From Source
 
@@ -192,10 +194,10 @@ Because failure paths record rather than throw, they legitimately emit PHP warni
 
 The published documentation lives at **<https://zlatanstajic.github.io/php-library/>** and covers installation, examples and the public API reference.
 
-Sources are the MyST Markdown files under [docs](docs/), built with Sphinx. [`.github/workflows/pages.yml`](.github/workflows/pages.yml) rebuilds and publishes them on every push to `master`. To build them locally:
+Sources are the MyST Markdown files under [docs](docs/), built with Sphinx. [`.github/workflows/pages.yml`](.github/workflows/pages.yml) builds them on pull requests and publishes successful builds on pushes or manual dispatches on `master`. To build them locally, install the pinned dependencies in a Python virtual environment:
 
 ```bash
-pip install -r docs/requirements.txt
+python -m pip install --requirement docs/requirements.txt
 make -C docs html
 ```
 
@@ -326,7 +328,9 @@ git commit --no-verify
 
 ## Contributing
 
-Contributions are welcome. Open an issue to discuss a change, then submit a pull request that keeps `composer run check` green, including the 80% coverage requirement. See [CONTRIBUTING.md](CONTRIBUTING.md) for the branch naming rules, the layout conventions and the error-handling contract a new class must follow.
+Contributions are welcome. Open an issue to discuss a change, then submit a pull request that keeps `composer run check` green, including the 80% coverage requirement. See [CONTRIBUTING.md](CONTRIBUTING.md) for the branch naming rules, the layout conventions and the error-handling contract a new class must follow. Report vulnerabilities privately using [SECURITY.md](SECURITY.md).
+
+All participants are expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 [⬆ back to top](#table-of-contents)
 

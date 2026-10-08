@@ -51,6 +51,9 @@ if (! $dump->mysql()) {
 $createdFiles = $dump->get_file();
 ```
 
-The password is passed through `MYSQL_PWD`, not exposed in the process command
-line. Database names and connection arguments are escaped. The destination
-directory must already exist and be writable.
+The password is passed through `MYSQL_PWD` rather than a password argument to
+`mysqldump`. The shell invocation still includes the password assignment, so
+this does not guarantee secrecy from local process inspection. Database names
+and connection arguments are shell-quoted. The destination directory must
+already exist and be writable. Keep these settings under trusted configuration;
+see [Security and trusted inputs](security.md) for credential and path boundaries.

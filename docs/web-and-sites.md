@@ -79,3 +79,7 @@ deprecated compatibility state.
 Use `creator($key)` and `images($key)` to read configured entries.
 `image_size($path)` returns `width`, `height` and `width_height` for a valid
 image.
+
+Remote URLs and asset markup must come from trusted configuration or be validated
+by the application. See [Security and trusted inputs](security.md) for the URL
+and HTML boundaries of these helpers.

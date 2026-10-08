@@ -1,6 +1,12 @@
 # Contributing
 
-Contributions are welcome. To propose a change:
+Contributions are welcome. Please follow the [Code of Conduct](CODE_OF_CONDUCT.md)
+when participating in this project.
+
+For suspected vulnerabilities, use the private reporting route in
+[SECURITY.md](SECURITY.md) before opening an issue or pull request.
+
+To propose a change:
 
 1. **Open an issue, then branch.** Every change starts from a GitHub issue — open one first, whatever the size. Fork the repository, then create a branch off `master` under the `issues/` prefix: it is the only accepted prefix, and an `issues/` branch is the only thing you may push. Branch names are **kebab-case only** — lowercase ASCII letters, digits, and single hyphens as separators, matching `^issues/[a-z0-9]+(-[a-z0-9]+)*$`. No underscores, dots, spaces, slashes beyond the prefix, or capitals. Lead with the issue number so the branch is traceable (e.g. `issues/42-mysql-dump-flags`).
 2. **Set up the tooling.** The library targets **PHP 8.5** and requires PCOV or Xdebug to run its coverage-enforced test suite; Composer installs the project dependencies. Nothing else needs to be configured and there is no `.env` file — the suite generates every fixture it needs at run time, so no database, no network and no downloaded folder are required.
@@ -15,7 +21,7 @@ Contributions are welcome. To propose a change:
 
    Autoloading is PSR-4 with **Pascal_Snake_Case namespaces mapped to lowercase directories** (`PHP_Library\Core\Arrangements\` → `src/core/arrangements`). Class files are named for the class (`Date_Time_Format.php`). There is no root-level mapping, so a genuinely new subdirectory under `src/` also needs a new entry in [composer.json](composer.json).
 
-   `tests/` mirrors `src/` with PascalCase directories and the underscores dropped from the file name — `src/core/arrangements/Date_Time_Format.php` is covered by `tests/Core/Arrangements/DateTimeFormatTest.php`. Shared fixture helpers (`temp_dir()`, `remove_dir()`, `write_png()`) live in [tests/Pest.php](tests/Pest.php); add new ones there instead of duplicating setup across files.
+   `tests/Core/` mirrors `src/core/` with PascalCase directories and the underscores dropped from the file name — `src/core/arrangements/Date_Time_Format.php` is covered by `tests/Core/Arrangements/DateTimeFormatTest.php`. The three system classes are tested directly under `tests/System/` (`MessageTest.php`, `TestingTest.php`, `ConnectionTest.php`), without the `src/system/` subdirectories. Shared fixture helpers (`temp_dir()`, `remove_dir()`, `write_png()`) live in [tests/Pest.php](tests/Pest.php); add new ones there instead of duplicating setup across files.
 4. **Match conventions.** PHP Library uses the default Laravel Pint `laravel` preset over both `src/` and `tests/`. Run `composer run fix` to apply it. Naming is not enforced by Pint: retain the library's public `snake_case` methods, `Pascal_Snake_Case` classes and `UPPER_SNAKE` constants. Comments and identifiers are spell-checked by [Peck](https://github.com/peckphp/peck); add a genuine technical term to the `ignore.words` list in [peck.json](peck.json) rather than reworking a name to satisfy the checker.
 
    **Do not add `declare(strict_types=1)`.** Coercive mode is load-bearing: callers pass numeric strings (`Temperature::c_to_f('20')`) and the code relies on `floatval()`/`intval()` coercion. Parameters therefore take *widening* unions (`int|float|string`). Neither the Laravel Pint preset nor [rector.php](rector.php) adds a strict-types rule, so nothing reintroduces it.
@@ -35,6 +41,17 @@ Contributions are welcome. To propose a change:
    `composer run check` runs Pint in check-only mode, the spell checker, Rector, static analysis and coverage-enforced tests in that order, and stops at the first failure. The individual gates are `composer run lint`, `composer run peck` (spelling, configured in [peck.json](peck.json), requires `aspell`), `composer run rector` (dry-run refactoring for `src/` and `tests/`, configured in [rector.php](rector.php)), `composer run phpstan` (level 7, `src/` only, configured in [phpstan.neon](phpstan.neon)) and `composer run test`. Tests fail below 80% line coverage. All five gates must be clean. Run `composer run rector:fix` to apply Rector's proposed changes.
 
    `composer install` configures the repository's version-controlled pre-commit hook, which runs the same complete check before every commit. You can reinstall it manually with `composer run hooks:install`. Pull requests and pushes to `master` also run the check in GitHub Actions.
+
+   For documentation changes, install [docs/requirements.txt](docs/requirements.txt)
+   in a Python virtual environment and build from the repository root:
+
+   ```bash
+   python -m pip install --requirement docs/requirements.txt
+   sphinx-build --fail-on-warning --builder html docs docs/_build/html
+   ```
+
+   Pull requests also run this documentation build. Only pushes to `master` and
+   manual dispatches on `master` deploy successful builds to GitHub Pages.
 
    `composer run test` and its alias `composer run coverage` write the browsable HTML report and machine-readable Clover report under `build/`. GitHub Actions publishes these reports as the `coverage-report` artifact and shows the text summary on the workflow run.
 
@@ -73,6 +90,8 @@ Contributions here are especially welcome, but each has a reason it is still ope
 ## Releasing (maintainers)
 
 The package is published on [Packagist](https://packagist.org/packages/zlatanstajic/php-library) and served straight from the repository's git tags — [composer.json](composer.json) carries no `version` field, so **tagging is the release**.
+
+No version has been tagged yet, so Packagist serves only `dev-master`. Until the first tag, the install commands in [README.md](README.md), [docs/index.md](docs/index.md) and [docs/getting-started.md](docs/getting-started.md) use `composer require zlatanstajic/php-library:dev-master`, and the manual downloads point at the `master` source archive. With the first tag, switch those commands back to `composer require zlatanstajic/php-library` and point the downloads at the latest release.
 
 1. Confirm `composer run check` is clean on `master`.
 2. Tag the commit `vX.Y.Z` and push the tag, then create the matching GitHub release.

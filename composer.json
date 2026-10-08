@@ -1,14 +1,14 @@
 {
   "name": "zlatanstajic/php-library",
   "type": "library",
-  "description": "PHP Library is a set of classes that contain the most useful attributes and methods that facilitate the development of Web applications",
+  "description": "A reusable collection of lightweight PHP components for validation, files, spreadsheets, HTTP services, databases, and other common web-development tasks.",
   "keywords": [
     "php",
     "library",
     "oop",
     "php-library"
   ],
-  "homepage": "https://github.com/zlatanstajic/php-library",
+  "homepage": "https://zlatanstajic.github.io/php-library/",
   "license": "MIT",
   "authors": [
     {
@@ -18,6 +18,12 @@
       "role": "Author & Main Developer"
     }
   ],
+  "support": {
+    "issues": "https://github.com/zlatanstajic/php-library/issues",
+    "source": "https://github.com/zlatanstajic/php-library",
+    "docs": "https://zlatanstajic.github.io/php-library/",
+    "security": "https://github.com/zlatanstajic/php-library/security/policy"
+  },
   "config": {
     "sort-packages": true,
     "optimize-autoloader": true,
@@ -37,6 +43,10 @@
     "pestphp/pest": "^5.1",
     "phpstan/phpstan": "^2.1",
     "rector/rector": "^2.6"
+  },
+  "suggest": {
+    "ext-curl": "Required by Web_Service for HTTP requests",
+    "ext-pdo_mysql": "Required by PDO_Connection for MySQL connections"
   },
   "autoload": {
     "psr-4": {

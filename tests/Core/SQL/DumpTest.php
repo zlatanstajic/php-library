@@ -50,8 +50,7 @@ it('does not execute a shell command injected through the host', function () {
     expect(file_exists($probe))->toBeFalse();
 });
 
-it('does not leak the password onto the command line', function () {
-    // The password travels in MYSQL_PWD; argv would be world-readable via ps.
+it('keeps the password out of recorded file paths', function () {
     $dump = new Dump([
         'command' => 'true',
         'destination' => $this->dir,
